@@ -1,0 +1,16 @@
+# ── Core (always required) ─────────────────────────────────────────────────
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+python-multipart>=0.0.9
+numpy>=1.26.0           # VAD energy calculation + PCM conversion
+
+# ── WebSocket testing ──────────────────────────────────────────────────────
+websockets>=12.0        # used by test_ws.py
+
+# ── Real ASR (required when ASR_MODE=real) ────────────────────────────────
+# Uncomment these when ready for real transcription + translation:
+# faster-whisper>=1.0.0
+# deep-translator>=1.11.4
+
+# ── Optional: load .env automatically ─────────────────────────────────────
+# python-dotenv>=1.0.0

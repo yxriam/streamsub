@@ -1,0 +1,468 @@
+/* VideoPlayer.module.css — v6 (complete, canonical) */
+
+/* ── Shell ──────────────────────────────────────────────────────────────── */
+.shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--bg);
+  overflow: hidden;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+  gap: 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+}
+
+.logoMark { font-size: 15px; color: var(--accent); }
+
+.logoText {
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+}
+
+.logoBadge {
+  font-size: 9px;
+  font-family: 'Space Mono', monospace;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 5px;
+  border-radius: 4px;
+  letter-spacing: 1px;
+}
+
+.headerCenter {
+  flex: 1;
+  min-width: 0;
+  max-width: 380px;
+  padding: 0 12px;
+}
+
+.headerRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.modeBadge {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 1px solid;
+  white-space: nowrap;
+}
+
+.langSelect {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  padding: 4px 7px;
+  border-radius: 6px;
+  outline: none;
+  cursor: pointer;
+  max-width: 130px;
+  transition: border-color 0.15s;
+}
+.langSelect:focus { border-color: var(--accent); }
+
+.latencyBadge {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  background: rgba(124,106,247,0.1);
+  border: 1px solid rgba(124,106,247,0.25);
+  white-space: nowrap;
+}
+
+.pill {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-family: 'Inter', sans-serif;
+  padding: 4px 10px;
+  border-radius: 20px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.pill:hover      { border-color: var(--accent); color: var(--accent); }
+.pillActive      { background: rgba(124,106,247,0.15); border-color: var(--accent); color: var(--accent); }
+
+/* ── Main layout ─────────────────────────────────────────────────────────── */
+.main {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.playerCol {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  overflow: hidden;
+}
+
+/* ── Drop zone ───────────────────────────────────────────────────────────── */
+.dropZone {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px;
+  padding: 60px 40px;
+  border: 2px dashed var(--border);
+  border-radius: 16px;
+  cursor: pointer;
+  background: var(--surface);
+  text-align: center;
+  transition: border-color 0.2s, background 0.2s;
+}
+.dropZone:hover,
+.dropZoneActive {
+  border-color: var(--accent);
+  background: var(--surface2);
+}
+
+.dropIcon  { font-size: 34px; color: var(--accent); }
+.dropTitle { font-size: 17px; font-weight: 600; color: var(--text); }
+.dropSub   { font-size: 13px; color: var(--text-muted); }
+.dropNote  {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface2);
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  margin-top: 4px;
+}
+.dropHint  { font-size: 11px; color: var(--text-muted); opacity: 0.6; margin-top: 4px; }
+.kbd {
+  display: inline-block;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  color: var(--text);
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+/* ── Video area ──────────────────────────────────────────────────────────── */
+.videoWrapper {
+  position: relative;
+  background: #000;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  cursor: pointer;
+}
+
+/* ── Subtitle overlay ────────────────────────────────────────────────────── */
+.subtitleOverlay {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 88%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  pointer-events: none;
+  z-index: 10;
+}
+.subtitleBottom { bottom: 18px; }
+.subtitleTop    { top: 18px; }
+
+/* Single shared class for both original and translated lines */
+.subLine {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  /* color and background set inline from settings */
+  text-shadow: 0 2px 8px rgba(0,0,0,0.9);
+  text-align: center;
+  padding: 4px 14px;
+  border-radius: 6px;
+  line-height: 1.5;
+  backdrop-filter: blur(3px);
+  animation: subFadeIn 0.2s ease;
+  max-width: 100%;
+}
+
+.subPartial {
+  border-left: 2px solid var(--accent);
+}
+
+@keyframes subFadeIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.cursor {
+  display: inline-block;
+  animation: blink 0.85s step-start infinite;
+  color: var(--accent);
+  margin-left: 2px;
+}
+@keyframes blink { 50% { opacity: 0; } }
+
+.confBadge {
+  font-family: 'Space Mono', monospace;
+  font-size: 10px;
+  color: var(--yellow);
+  background: rgba(250,204,21,0.12);
+  border: 1px solid rgba(250,204,21,0.3);
+  padding: 2px 7px;
+  border-radius: 20px;
+  pointer-events: none;
+  margin-top: 2px;
+}
+
+/* ── Pause overlay ───────────────────────────────────────────────────────── */
+.pauseOverlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.2);
+  cursor: pointer;
+  z-index: 5;
+}
+.playBigBtn {
+  font-size: 50px;
+  color: rgba(255,255,255,0.85);
+  text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+  transition: transform 0.15s;
+}
+.pauseOverlay:hover .playBigBtn { transform: scale(1.1); }
+
+.fullscreenBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.45);
+  border: none;
+  color: rgba(255,255,255,0.65);
+  font-size: 17px;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  cursor: pointer;
+  z-index: 20;
+  transition: background 0.15s, color 0.15s;
+}
+.fullscreenBtn:hover { background: rgba(0,0,0,0.7); color: #fff; }
+
+/* ── Controls panel ──────────────────────────────────────────────────────── */
+.controls {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 10px 18px 12px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.fileBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fileName {
+  flex: 1;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: 'Space Mono', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Seek */
+.seekRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.time {
+  font-family: 'Space Mono', monospace;
+  font-size: 11px;
+  color: var(--text-muted);
+  min-width: 40px;
+  flex-shrink: 0;
+}
+.seekTrack {
+  flex: 1;
+  position: relative;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+}
+.seekFill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: var(--accent);
+  border-radius: 2px;
+  pointer-events: none;
+  transition: width 0.1s linear;
+}
+.seekBar {
+  position: absolute;
+  inset: -7px 0;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+  height: 18px;
+}
+
+/* Buttons */
+.buttonRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.playPauseBtn {
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: transform 0.15s, background 0.15s;
+}
+.playPauseBtn:hover { transform: scale(1.08); background: #6a5ae0; }
+
+.skipBtn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 13px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s;
+}
+.skipBtn:hover { border-color: var(--accent); color: var(--accent); }
+
+.speedGroup { display: flex; gap: 4px; }
+.speedBtn {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-family: 'Space Mono', monospace;
+  padding: 4px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.speedBtn:hover  { border-color: var(--accent); color: var(--accent); }
+.speedActive     { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.volumeGroup {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-left: auto;
+}
+.muteBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 2px;
+  border-radius: 4px;
+  transition: background 0.15s;
+}
+.muteBtn:hover { background: var(--surface2); }
+
+.volumeSlider {
+  -webkit-appearance: none;
+  width: 75px;
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+}
+.volumeSlider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 11px; height: 11px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Stats / hint bar */
+.statsBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  color: var(--text-muted);
+  font-family: 'Space Mono', monospace;
+  opacity: 0.6;
+}
+.statsBar strong { color: var(--accent2); font-weight: 500; }
+.hintKeys        { letter-spacing: 0.3px; }
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 18px;
+  font-size: 10px;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border);
+  font-family: 'Space Mono', monospace;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
